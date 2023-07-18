@@ -1,0 +1,24 @@
+version: '3.9'
+
+x-container: &container
+  logging:
+    options:
+      max-size: "200k"
+      max-file: "10"
+services:
+  db:
+    <<: *container
+    image: mysql
+    command: --default-time-zone='+00:00'
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    restart: no
+    environment:
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASS
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"

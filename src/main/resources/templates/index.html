@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--xmlns:th="http://www.thymeleaf.org"-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <script type="text/javascript" src="/scripts/script.js"></script>
+    <title>Air Tickets</title>
+</head>
+<body>
+    <p  text="Поиск авиабилетов" th:text="${fromPlace}" class="mainText">pppПоиск авиабилетов</p>
+    <form th:action="@{/admin/tickets/cities}" th:object="${feedback}" method="get">
+        <div class="fromTo">
+            <div style="margin: 0 auto; height: 18px">
+                <label>
+                    Откуда:
+                    <input name="fromPlace" class="find" type="text">
+                </label>
+            </div>
+            <div style="margin: 0 auto; height: 18px">
+                <label>
+                    Куда:
+                    <input name="toPlace" class="find" type="text">
+                </label>
+            </div>
+            <div style="margin: 0 auto; height: 18px">
+                <label>
+                    Когда:
+                    <input  id="dateInput" class="find" type="date" onchange="checkDate()">
+                </label>
+            </div>
+        </div>
+
+        <input id="query" type="submit" hidden>
+        <input type="button" value="Поиск" class="searchButton"
+               onclick="document.getElementById('query').click();searchTickets()" >
+    </form>
+
+</body>
+</html>

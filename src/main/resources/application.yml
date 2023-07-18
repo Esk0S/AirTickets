@@ -1,0 +1,23 @@
+spring:
+    application:
+        name: airlines
+    datasource:
+        url: jdbc:mysql://localhost:3306/airlinesDB
+        username: ${DB_USER}
+        password: ${DB_PASS}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        generate-ddl: true
+        show-sql: true
+
+ngrok:
+    enabled: false
+
+server:
+    port: 8080
+
+
+
+

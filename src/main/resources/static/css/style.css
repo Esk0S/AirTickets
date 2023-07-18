@@ -1,0 +1,23 @@
+.mainText {
+    text-align: center;
+    font-size: 48px;
+    font-family: Calibri, sans-serif;
+
+}
+.find {
+    width: 100%;
+    height: 100%;
+
+}
+.fromTo {
+    width: 50%;
+    display: flex;
+    margin: 0 auto;
+}
+.searchButton {
+    display: block;
+    margin: 100px auto 0;
+    width: 100px;
+    height: 30px;
+    font-size: 14px;
+}
