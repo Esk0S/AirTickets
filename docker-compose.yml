@@ -8,17 +8,17 @@ x-container: &container
 services:
   db:
     <<: *container
-    image: mysql
-    command: --default-time-zone='+00:00'
+    image: postgres
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     restart: no
     environment:
-      MYSQL_DATABASE: $DB_NAME
-      MYSQL_USER: $DB_USER
-      MYSQL_PASSWORD: $DB_PASS
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_DATABASE: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_ROOT_PASSWORD: root
+      PGPORT: 5430
     volumes:
-      - ./volumes/mysql:/var/lib/mysql
+      - ./volumes/postgres:/var/lib/postgres
     ports:
-      - "3306:3306"
+      - "5431:5430"

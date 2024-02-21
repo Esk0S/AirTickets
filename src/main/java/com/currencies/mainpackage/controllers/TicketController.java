@@ -31,7 +31,7 @@ public class TicketController {
     }
 
     @GetMapping(value = "/cities")
-    public String findByFromFromTo(@RequestParam String fromPlace, @RequestParam String toPlace, Model model) {
+    public String findByFromAndFromTo(@RequestParam String fromPlace, @RequestParam String toPlace, Model model) {
 //        return ticketService.findByFromFromTo(fromPlace, toPlace);
 //        return "From City: " + fromPlace + " To City: " + toPlace;
         model.addAttribute("fromPlace", fromPlace)
