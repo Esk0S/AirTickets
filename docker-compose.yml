@@ -19,6 +19,16 @@ services:
       POSTGRES_ROOT_PASSWORD: root
       PGPORT: 5430
     volumes:
-      - ./volumes/postgres:/var/lib/postgres
+      - ./volumes/postgresql:/var/lib/postgresql/data
     ports:
       - "5431:5430"
+
+  server:
+    <<: *container
+    container_name: app
+    env_file:
+      - .env
+    build: .
+    restart: no
+    ports:
+      - "8081:8080"

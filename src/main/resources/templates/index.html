@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--xmlns:th="http://www.thymeleaf.org"-->
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/style.css">
@@ -14,8 +13,8 @@
     <title>Air Tickets</title>
 </head>
 <body>
-    <p  text="Поиск авиабилетов" th:text="${fromPlace}" class="mainText">pppПоиск авиабилетов</p>
-    <form th:action="@{/admin/tickets/cities}" th:object="${feedback}" method="get">
+    <p class="mainText">Поиск авиабилетов</p>
+    <form th:action="@{/api/v1/tickets/search}" th:object="${feedback}" method="get">
         <div class="fromTo">
             <div style="margin: 0 auto; height: 18px">
                 <label>
@@ -32,7 +31,7 @@
             <div style="margin: 0 auto; height: 18px">
                 <label>
                     Когда:
-                    <input  id="dateInput" class="find" type="date" onchange="checkDate()">
+                    <input name="when" id="dateInput" class="find" type="date" onchange="checkDate()">
                 </label>
             </div>
         </div>

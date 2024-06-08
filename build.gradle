@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.currencies'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '18'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -18,18 +18,13 @@ repositories {
     mavenCentral()
 }
 
-//dependencyManagement {
-//    imports {
-//        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:latest.release'
-//    }
-//}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.jetbrains:annotations:24.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -38,9 +33,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation  'io.github.kilmajster:ngrok-spring-boot-starter:0.8.0'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.postgresql:postgresql'
 
-    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+    implementation 'com.impossibl.pgjdbc-ng:pgjdbc-ng:0.8.9'
+
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.3'
 }
 
 

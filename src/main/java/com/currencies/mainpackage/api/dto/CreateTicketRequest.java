@@ -1,4 +1,4 @@
-package com.currencies.mainpackage.models;
+package com.currencies.mainpackage.api.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Data
 public class CreateTicketRequest {
-    private Integer id;
+    private String id;
     private Integer price;
     private Timestamp startFlightDate;
     private Timestamp endFlightDate;
