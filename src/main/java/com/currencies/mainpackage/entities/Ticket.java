@@ -2,7 +2,12 @@ package com.currencies.mainpackage.entities;
 
 import com.impossibl.postgres.api.data.Interval;
 import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
@@ -13,16 +18,17 @@ import java.time.Duration;
 @Entity
 @Data
 @Convert(attributeName = "interval", converter = Interval.class)
-@Table(name = "tickets")
 @Accessors(chain = true)
 public class Ticket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer price;
-//    @Column(columnDefinition = "timestamp")
+
     private Timestamp startFlightDate;
-//    @Column(columnDefinition = "timestamp")
+
     private Timestamp endFlightDate;
 
     @Type(PostgreSQLIntervalType.class)
@@ -30,6 +36,7 @@ public class Ticket {
     private Duration inFlight;
 
     private String fromPlace;
+
     private String toPlace;
 
 }

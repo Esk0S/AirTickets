@@ -1,12 +1,17 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version 'latest.release'
+    id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.currencies'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '21'
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
 
 configurations {
     compileOnly {
@@ -25,22 +30,30 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    implementation 'org.apache.logging.log4j:log4j-api-kotlin:1.5.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.24.3'
+    implementation 'org.apache.logging.log4j:log4j-core:2.24.3'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.postgresql:postgresql'
-
     implementation 'com.impossibl.pgjdbc-ng:pgjdbc-ng:0.8.9'
-
     implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.3'
-}
+    implementation 'org.liquibase:liquibase-core:4.27.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
+    compileOnly 'org.projectlombok:lombok'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose:3.4.3'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
 
 
 tasks.named('test') {

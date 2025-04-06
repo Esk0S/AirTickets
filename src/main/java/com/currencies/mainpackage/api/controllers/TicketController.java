@@ -1,57 +1,65 @@
 package com.currencies.mainpackage.api.controllers;
 
-import com.currencies.mainpackage.models.CreateTicketRequest;
-import com.currencies.mainpackage.entities.Ticket;
-import com.currencies.mainpackage.app.service.TicketService;
+import com.currencies.mainpackage.api.dto.request.CreateTicketRequest;
+import com.currencies.mainpackage.api.dto.response.TicketResponse;
+import com.currencies.mainpackage.core.ticket.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
 import java.util.List;
 
-import static org.springframework.http.MediaType.*;
+import static com.currencies.mainpackage.api.ApiPath.ID;
+import static com.currencies.mainpackage.api.ApiPath.SEARCH;
+import static com.currencies.mainpackage.api.ApiPath.TICKETS;
 
 @RestController
-@RequestMapping("/api/v1/tickets")
+@CrossOrigin
+@RequestMapping(TICKETS)
 @RequiredArgsConstructor
 public class TicketController {
     private final TicketService ticketService;
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public List<Ticket> findAll() {
+    @GetMapping
+    public List<TicketResponse> findAll() {
         return ticketService.findAll();
     }
 
-    @GetMapping(value = "/identifiers/{id}", produces = APPLICATION_JSON_VALUE)
-    public Ticket findById(@PathVariable Integer id) {
+    @GetMapping(ID)
+    public TicketResponse findById(@PathVariable Integer id) {
         return ticketService.findById(id);
     }
 
-    @GetMapping(value = "/search", produces = APPLICATION_JSON_VALUE)
-    public List<Ticket> findByFromAndFromTo(@RequestParam String fromPlace,
+    @GetMapping(SEARCH)
+    public List<TicketResponse> findByFromAndFromTo(@RequestParam String fromPlace,
                                                     @RequestParam String toPlace,
-                                                    @RequestParam Date when,
-                                                    Model model) {
-//        model.addAttribute("fromPlace", fromPlace)
-//                .addAttribute("toPlace", toPlace)
-//                .addAttribute("when", when);
+                                                    @RequestParam Date when) {
         return ticketService.findTickets(fromPlace, toPlace, when);
     }
 
-    @PostMapping(value = "/", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Ticket create(@RequestBody CreateTicketRequest request) {
+    @PostMapping
+    public TicketResponse create(@RequestBody CreateTicketRequest request) {
         return ticketService.createTicket(request);
     }
 
-    @PatchMapping(value = "/identifiers/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Ticket update(@PathVariable Integer id, @RequestBody CreateTicketRequest request) {
+    @PatchMapping(ID)
+    public TicketResponse update(@PathVariable Integer id, @RequestBody CreateTicketRequest request) {
         return ticketService.update(id, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(value = "/identifiers/{id}", produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping(ID)
     public void delete(@PathVariable Integer id) {
         ticketService.delete(id);
     }

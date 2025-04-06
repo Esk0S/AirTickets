@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: EskoS
+      changes:
+        - createTable:
+            tableName: ticket
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: price
+                  type: integer
+              - column:
+                  name: start_flight_date
+                  type: timestamp
+              - column:
+                  name: end_flight_date
+                  type: timestamp
+              - column:
+                  name: in_flight
+                  type: interval
+              - column:
+                  name: from_place
+                  type: varchar(255)
+              - column:
+                  name: to_place
+                  type: varchar(255)

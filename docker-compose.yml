@@ -1,34 +1,22 @@
-version: '3.9'
-
-x-container: &container
-  logging:
-    options:
-      max-size: "200k"
-      max-file: "10"
 services:
-  db:
-    <<: *container
-    image: postgres
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
+  postgres:
+    image: postgres:17.4
+    container_name: airtickets
     restart: no
     environment:
-      POSTGRES_DATABASE: ${DB_NAME}
+      POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_ROOT_PASSWORD: root
-      PGPORT: 5430
     volumes:
       - ./volumes/postgresql:/var/lib/postgresql/data
     ports:
-      - "5431:5430"
+      - "5432:5432"
 
-  server:
-    <<: *container
-    container_name: app
-    env_file:
-      - .env
-    build: .
-    restart: no
-    ports:
-      - "8081:8080"
+#  server:
+#    container_name: app
+#    env_file:
+#      - .env
+#    build: .
+#    restart: no
+#    ports:
+#      - "8081:8080"

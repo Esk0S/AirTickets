@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
+
     @Query("from Ticket where fromPlace = :from AND toPlace = :to AND DATE(startFlightDate) = :startFlightDate")
     List<Ticket> findTickets(String from, String to, Date startFlightDate);
+
 }
