@@ -17,11 +17,11 @@ spring:
       jks:
         elasticsearch-sslbundle:
           keystore:
-            location: classpath:certificate-bundle.p12
+            location: classpath:new_cert.p12
             password: ""
             type: PKCS12
           truststore:
-            location: classpath:certificate-bundle.p12
+            location: classpath:new_cert.p12
             password: ""
             type: PKCS12
           reload-on-update: true
