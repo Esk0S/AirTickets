@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: migration/V0001__create_ticket.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migration/V0002__create_tables_for_user.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migration/V0003__create_spring_session.yaml
+      relativeToChangelogFile: true

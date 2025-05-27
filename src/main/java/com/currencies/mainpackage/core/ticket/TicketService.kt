@@ -1,30 +1,21 @@
-package com.currencies.mainpackage.core.ticket;
+package com.currencies.mainpackage.core.ticket
 
-import com.currencies.mainpackage.api.dto.response.TicketResponse;
-import com.currencies.mainpackage.api.dto.request.CreateTicketRequest;
-import org.jetbrains.annotations.NotNull;
+import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
+import com.currencies.mainpackage.api.dto.response.TicketResponse
+import java.sql.Date
 
-import java.sql.Date;
-import java.util.List;
+interface TicketService {
 
-public interface TicketService {
+    fun findAll(): List<TicketResponse>
 
-    @NotNull
-    List<TicketResponse> findAll();
+    fun findById(id: Long): TicketResponse?
 
-    @NotNull
-    TicketResponse findById(@NotNull Integer id);
+    fun findTickets(from: String, to: String, startFlightDate: Date): List<TicketResponse>
 
-    @NotNull
-    List<TicketResponse> findTickets(String from, String to, Date startFlightDate);
+    fun save(request: CreateTicketRequest): TicketResponse
 
-    @NotNull
-    TicketResponse createTicket(@NotNull CreateTicketRequest request);
+    fun update(id: Long, request: CreateTicketRequest): TicketResponse
 
-    @NotNull
-    TicketResponse update(@NotNull Integer id, @NotNull CreateTicketRequest request);
-
-    void delete(@NotNull Integer id);
-
+    fun delete(id: Long)
 
 }

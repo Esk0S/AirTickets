@@ -1,0 +1,111 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: EskoS
+      changes:
+      - createTable:
+          tableName: role
+          columns:
+            - column:
+                name: id
+                type: serial
+                constraints:
+                  primaryKey: true
+            - column:
+                name: name
+                type: VARCHAR(50)
+                constraints:
+                  nullable: false
+
+      - createTable:
+          tableName: user
+          columns:
+            - column:
+                name: id
+                type: serial
+                constraints:
+                  primaryKey: true
+            - column:
+                name: email
+                type: VARCHAR(100)
+                constraints:
+                  nullable: false
+                  unique: true
+            - column:
+                name: username
+                type: VARCHAR(20)
+                constraints:
+                  nullable: false
+                  unique: true
+            - column:
+                name: password
+                type: VARCHAR(100)
+                constraints:
+                  nullable: false
+            - column:
+                name: first_name
+                type: VARCHAR(30)
+            - column:
+                name: last_name
+                type: VARCHAR(30)
+            - column:
+                name: middle_name
+                type: VARCHAR(30)
+            - column:
+                name: is_enabled
+                type: BOOLEAN
+                defaultValueBoolean: true
+                constraints:
+                  nullable: false
+
+      - createTable:
+          tableName: user_role
+          columns:
+            - column:
+                name: id
+                type: serial
+                constraints:
+                  primaryKey: true
+            - column:
+                name: user_id
+                type: BIGINT
+                constraints:
+                  nullable: false
+            - column:
+                name: role_id
+                type: BIGINT
+                constraints:
+                  nullable: false
+      - addUniqueConstraint:
+          tableName: user_role
+          columnNames: user_id, role_id
+          constraintName: uk_user_role
+      - addForeignKeyConstraint:
+          baseTableName: user_role
+          baseColumnNames: user_id
+          referencedTableName: user
+          referencedColumnNames: id
+          constraintName: fk_user_role_user
+          onDelete: CASCADE
+      - addForeignKeyConstraint:
+          baseTableName: user_role
+          baseColumnNames: role_id
+          referencedTableName: role
+          referencedColumnNames: id
+          constraintName: fk_user_role_role
+          onDelete: CASCADE
+
+      - insert:
+          tableName: role
+          columns:
+            - column:
+                name: name
+                value: ROLE_ADMIN
+      - insert:
+          tableName: role
+          columns:
+            - column:
+                name: name
+                value: ROLE_USER
+
+

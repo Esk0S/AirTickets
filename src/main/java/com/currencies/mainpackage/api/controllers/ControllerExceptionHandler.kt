@@ -1,6 +1,7 @@
 package com.currencies.mainpackage.api.controllers
 
 import com.currencies.mainpackage.api.dto.response.ErrorResponse
+import com.currencies.mainpackage.core.exception.DbUniquenessViolationException
 import jakarta.persistence.EntityNotFoundException
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.http.HttpStatus
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 
 
 @ControllerAdvice
-class ControllerExceptionHandler: Logging {
+class ControllerExceptionHandler : Logging {
 
     @ExceptionHandler(Throwable::class)
     fun handleException(e: Throwable):ResponseEntity<ErrorResponse> {
@@ -37,6 +38,10 @@ class ControllerExceptionHandler: Logging {
             is EntityNotFoundException -> {
                 httpStatus = HttpStatus.NOT_FOUND
                 message = e.message
+            }
+            is DbUniquenessViolationException -> {
+               httpStatus = HttpStatus.CONFLICT
+               message = e.message
             }
             else -> {
                 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR

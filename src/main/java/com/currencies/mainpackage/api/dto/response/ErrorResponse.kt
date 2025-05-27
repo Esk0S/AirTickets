@@ -2,6 +2,7 @@ package com.currencies.mainpackage.api.dto.response
 
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED
 import io.swagger.v3.oas.annotations.media.Schema
+import java.io.Serializable
 
 data class ErrorResponse(
 
@@ -26,4 +27,4 @@ data class ErrorResponse(
     )
     val message: String? = null
 
-)
+) : Serializable

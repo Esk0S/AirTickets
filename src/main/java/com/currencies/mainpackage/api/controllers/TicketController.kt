@@ -1,67 +1,72 @@
-package com.currencies.mainpackage.api.controllers;
+package com.currencies.mainpackage.api.controllers
 
-import com.currencies.mainpackage.api.dto.request.CreateTicketRequest;
-import com.currencies.mainpackage.api.dto.response.TicketResponse;
-import com.currencies.mainpackage.core.ticket.TicketService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.Date;
-import java.util.List;
-
-import static com.currencies.mainpackage.api.ApiPath.ID;
-import static com.currencies.mainpackage.api.ApiPath.SEARCH;
-import static com.currencies.mainpackage.api.ApiPath.TICKETS;
+import com.currencies.mainpackage.api.ApiPath.ID
+import com.currencies.mainpackage.api.ApiPath.SEARCH
+import com.currencies.mainpackage.api.ApiPath.TICKETS
+import com.currencies.mainpackage.api.docs.SwaggerTicketController
+import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
+import com.currencies.mainpackage.api.dto.response.TicketResponse
+import com.currencies.mainpackage.core.ticket.TicketService
+import com.currencies.mainpackage.repositories.UserRepository
+import java.sql.Date
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @CrossOrigin
 @RequestMapping(TICKETS)
-@RequiredArgsConstructor
-public class TicketController {
-    private final TicketService ticketService;
+class TicketController(private val ticketService: TicketService) : SwaggerTicketController {
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public List<TicketResponse> findAll() {
-        return ticketService.findAll();
+    override fun findAll(): ResponseEntity<List<TicketResponse>> {
+        val tickets = ticketService.findAll()
+        return ResponseEntity.ok().body(tickets)
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(ID)
-    public TicketResponse findById(@PathVariable Integer id) {
-        return ticketService.findById(id);
+    override fun findById(@PathVariable id: Long): ResponseEntity<TicketResponse> {
+        return ResponseEntity.ok().body(ticketService.findById(id))
     }
 
     @GetMapping(SEARCH)
-    public List<TicketResponse> findByFromAndFromTo(@RequestParam String fromPlace,
-                                                    @RequestParam String toPlace,
-                                                    @RequestParam Date when) {
-        return ticketService.findTickets(fromPlace, toPlace, when);
+    override fun findByFromAndFromTo(
+        @RequestParam fromPlace: String,
+        @RequestParam toPlace: String,
+        @RequestParam `when`: Date
+    ): ResponseEntity<List<TicketResponse>> {
+        return ResponseEntity.ok().body(
+            ticketService.findTickets(fromPlace, toPlace, `when`)
+        )
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public TicketResponse create(@RequestBody CreateTicketRequest request) {
-        return ticketService.createTicket(request);
+    override fun create(@RequestBody request: CreateTicketRequest): ResponseEntity<TicketResponse> {
+        return ResponseEntity.ok().body(ticketService.save(request))
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping(ID)
-    public TicketResponse update(@PathVariable Integer id, @RequestBody CreateTicketRequest request) {
-        return ticketService.update(id, request);
+    override fun update(@PathVariable id: Long, @RequestBody request: CreateTicketRequest): ResponseEntity<TicketResponse> {
+        return ResponseEntity.ok().body(ticketService.update(id, request))
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(ID)
-    public void delete(@PathVariable Integer id) {
-        ticketService.delete(id);
+    override fun delete(@PathVariable id: Long): ResponseEntity<Void> {
+        ticketService.delete(id)
+        return ResponseEntity.noContent().build()
     }
-
 }

@@ -1,22 +1,43 @@
-package com.currencies.mainpackage.api.dto.request;
+package com.currencies.mainpackage.api.dto.request
 
-import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED
+import java.io.Serializable
+import java.sql.Timestamp
 
-import java.sql.Timestamp;
+data class CreateTicketRequest (
 
-@Data
-public class CreateTicketRequest {
+    @Schema(
+        description = "Цена билета",
+        requiredMode = REQUIRED,
+        example = "123"
+    )
+    val price: Int,
 
-    private Integer id;
+    @Schema(
+        description = "Дата начала полёта",
+        requiredMode = REQUIRED
+    )
+    val startFlightDate: Timestamp,
 
-    private Integer price;
+    @Schema(
+        description = "Дата окончания полёта",
+        requiredMode = REQUIRED
+    )
+    val endFlightDate: Timestamp,
 
-    private Timestamp startFlightDate;
+    @Schema(
+        description = "ID из какого города",
+        requiredMode = REQUIRED,
+        example = "1"
+    )
+    val fromPlace: String,
 
-    private Timestamp endFlightDate;
+    @Schema(
+        description = "ID в какой город",
+        requiredMode = REQUIRED,
+        example = "2"
+    )
+    val toPlace: String
 
-    private String fromPlace;
-
-    private String toPlace;
-
-}
+) : Serializable

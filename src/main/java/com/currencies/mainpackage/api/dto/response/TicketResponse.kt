@@ -1,27 +1,23 @@
-package com.currencies.mainpackage.api.dto.response;
+package com.currencies.mainpackage.api.dto.response
 
-import lombok.Data;
-import lombok.experimental.Accessors;
+import com.currencies.mainpackage.api.dto.response.`object`.CityObject
+import java.io.Serializable
+import java.sql.Timestamp
+import java.time.Duration
 
-import java.sql.Timestamp;
-import java.time.Duration;
+data class TicketResponse (
+    val id: Long,
 
-@Data
-@Accessors(chain = true)
-public class TicketResponse {
+    val price: Int,
 
-    private Integer id;
+    val startFlightDate: Timestamp,
 
-    private Integer price;
+    val endFlightDate: Timestamp,
 
-    private Timestamp startFlightDate;
+    val inFlight: Duration,
 
-    private Timestamp endFlightDate;
+    val fromPlace: String,
 
-    private Duration inFlight;
+    val toPlace: String
 
-    private String fromPlace;
-
-    private String toPlace;
-
-}
+) : Serializable

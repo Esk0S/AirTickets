@@ -1,15 +1,13 @@
-package com.currencies.mainpackage;
+package com.currencies.mainpackage
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
+import org.springframework.boot.runApplication
 
-@Log4j2
 @SpringBootApplication
-public class Application {
+@ConfigurationPropertiesScan
+class Application
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
+fun main(args: Array<String>) {
+    runApplication<Application>(*args)
 }

@@ -1,42 +1,46 @@
-package com.currencies.mainpackage.entities;
+package com.currencies.mainpackage.entities
 
-import com.impossibl.postgres.api.data.Interval;
-import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.Type;
-
-import java.sql.Timestamp;
-import java.time.Duration;
+import com.currencies.mainpackage.entities.jpa.JpaCity
+import com.impossibl.postgres.api.data.Interval
+import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType
+import jakarta.persistence.Column
+import jakarta.persistence.Convert
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import java.io.Serializable
+import java.sql.Timestamp
+import java.time.Duration
+import org.hibernate.annotations.Type
 
 @Entity
-@Data
-@Convert(attributeName = "interval", converter = Interval.class)
-@Accessors(chain = true)
-public class Ticket {
+@Convert(attributeName = "interval", converter = Interval::class)
+data class Ticket (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    val id: Long? = null,
 
-    private Integer price;
+    val price: Int,
 
-    private Timestamp startFlightDate;
+    val startFlightDate: Timestamp,
 
-    private Timestamp endFlightDate;
+    val endFlightDate: Timestamp,
 
-    @Type(PostgreSQLIntervalType.class)
+    @Type(PostgreSQLIntervalType::class)
     @Column(columnDefinition = "interval")
-    private Duration inFlight;
+    val inFlight: Duration,
 
-    private String fromPlace;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "from_place", referencedColumnName = "id")
+    val fromPlace: String,
 
-    private String toPlace;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "to_place", referencedColumnName = "id")
+    val toPlace: String
 
-}
+) : Serializable

@@ -1,0 +1,74 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: EskoS
+      changes:
+        - createTable:
+            tableName: ticket
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: price
+                  type: money
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_flight_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_flight_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: in_flight
+                  type: interval
+                  constraints:
+                    nullable: false
+              - column:
+                  name: from_place
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to_place
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+#        - createTable:
+#            tableName: city
+#            columns:
+#              - column:
+#                  name: id
+#                  type: serial
+#                  constraints:
+#                    primaryKey: true
+#              - column:
+#                  name: name
+#                  type: varchar(255)
+#                  constraints:
+#                    unique: true
+#                    nullable: false
+#
+#        - addForeignKeyConstraint:
+#            baseTableName: ticket
+#            baseColumnNames: from_place
+#            constraintName: fk_ticket_from_place
+#            referencedTableName: city
+#            referencedColumnNames: id
+#            onDelete: CASCADE
+#
+#        - addForeignKeyConstraint:
+#            baseTableName: ticket
+#            baseColumnNames: to_place
+#            constraintName: fk_ticket_to_place
+#            referencedTableName: city
+#            referencedColumnNames: id
+#            onDelete: CASCADE

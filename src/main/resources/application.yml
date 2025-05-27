@@ -1,25 +1,55 @@
 spring:
-    docker:
-        compose:
-            file: docker-compose.yml
-            lifecycle-management: start_only
-            skip:
-                in-tests: true
-    config:
-        import: file:.env[.properties]
-#    datasource:
-#        url: jdbc:postgresql://localhost:5432/${DB_NAME}
-#        username: ${DB_USER}
-#        password: ${DB_PASS}
-#        driver-class-name: org.postgresql.Driver
-#    jpa:
-#        properties:
-#            hibernate:
-#                dialect: org.hibernate.dialect.PostgreSQLDialect
-#        hibernate:
-#            ddl-auto: create
-#        generate-ddl: true
-#        show-sql: true
+  docker:
+    compose:
+      file: docker-compose.yml
+      lifecycle-management: start_only
+      skip:
+        in-tests: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+  config:
+    import: file:.env[.properties]
+  ssl:
+    bundle:
+      jks:
+        elasticsearch-sslbundle:
+          keystore:
+            location: classpath:certificate-bundle.p12
+            password: ""
+            type: PKCS12
+          truststore:
+            location: classpath:certificate-bundle.p12
+            password: ""
+            type: PKCS12
+          reload-on-update: true
+#  elasticsearch:
+#    uris: ${ELASTICSEARCH_URL}
+#    connection-timeout: 5s
+#    socket-timeout: 30s
+#    password: es_pass
+#    username: elastic
+#    restclient:
+#      ssl:
+#        bundle: elasticsearch-sslbundle
 
 server:
-    port: 8081
+  port: 8081
+
+logging:
+  pattern:
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %blue(%.15marker) %clr(${PID: }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+  level:
+    org.elasticsearch.client: DEBUG
+    org.apache.http: DEBUG
+
+springdoc:
+  api-docs:
+    resolve-schema-properties: true
+  swagger-ui.path: /swagger
+  api-docs.path: /api-docs
+
+app:
+  key: ${KEY_SECRET}
