@@ -1,4 +1,3 @@
-
 FROM gradle:8.3-jdk17 AS builder
 
 WORKDIR /app

@@ -1,15 +1,14 @@
 package com.currencies.mainpackage.api.controllers
 
+import com.currencies.mainpackage.api.ApiPath.ALL
 import com.currencies.mainpackage.api.ApiPath.CITIES
+import com.currencies.mainpackage.api.ApiPath.ES
 import com.currencies.mainpackage.api.ApiPath.ID
 import com.currencies.mainpackage.api.ApiPath.NAME
-import com.currencies.mainpackage.api.ApiPath.SEARCH
+import com.currencies.mainpackage.api.ApiPath.REINDEX
 import com.currencies.mainpackage.api.dto.request.CreateCityRequest
-import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
-import com.currencies.mainpackage.api.dto.response.CitiesListResponse
 import com.currencies.mainpackage.api.dto.response.CityResponse
 import com.currencies.mainpackage.core.city.CityService
-import java.sql.Date
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -27,6 +26,12 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(CITIES)
 class CityController(private val cityService: CityService) {
 
+    @GetMapping(REINDEX)
+    fun reindexAll(): ResponseEntity<Void> {
+        cityService.reindexAll()
+        return ResponseEntity.ok().build()
+    }
+
     @GetMapping
     fun findAll(): ResponseEntity<List<CityResponse>> {
         val cities = cityService.findAll()
@@ -38,27 +43,24 @@ class CityController(private val cityService: CityService) {
         return ResponseEntity.ok().body(cityService.findById(id))
     }
 
-//    @GetMapping(NAME)
-//    fun findByName(
-//        @RequestParam query: String
-//    ): ResponseEntity<CitiesListResponse> {
-//        return ResponseEntity.ok().body(cityService.findByName(query))
-//    }
+    @GetMapping(NAME)
+    fun findByName(
+        @RequestParam query: String,
+        @RequestParam(required = false, defaultValue = "0") page: Int,
+        @RequestParam(required = false, defaultValue = "5") size: Int,
+    ): ResponseEntity<List<CityResponse>> {
+        val citiesPage = cityService.findByName(query, page, size)
+        return ResponseEntity.ok().body(citiesPage.map { it }.toList())
+    }
 
-//    @GetMapping(SEARCH)
-//    fun findByFromAndFromTo(
-//        @RequestParam fromPlace: String,
-//        @RequestParam toPlace: String,
-//        @RequestParam `when`: Date
-//    ): ResponseEntity<List<CityResponse>> {
-//        return ResponseEntity.ok().body(
-//            cityService.findTickets(fromPlace, toPlace, `when`)
-//        )
-//    }
-
-    @PostMapping
+    @PostMapping(NAME)
     fun create(@RequestBody request: CreateCityRequest): ResponseEntity<CityResponse> {
         return ResponseEntity.ok().body(cityService.save(request))
+    }
+
+    @PostMapping
+    fun createJpa(@RequestBody request: CreateCityRequest): ResponseEntity<CityResponse> {
+        return ResponseEntity.ok().body(cityService.saveJpa(request))
     }
 
     @PatchMapping(ID)
@@ -71,4 +73,17 @@ class CityController(private val cityService: CityService) {
         cityService.delete(id)
         return ResponseEntity.noContent().build()
     }
+
+    @DeleteMapping(ES + ID)
+    fun deleteEs(@PathVariable id: Long): ResponseEntity<Void> {
+        cityService.deleteEs(id)
+        return ResponseEntity.noContent().build()
+    }
+
+    @DeleteMapping(ES + ALL)
+    fun deleteAllEs(): ResponseEntity<Void> {
+        cityService.deleteAllEs()
+        return ResponseEntity.noContent().build()
+    }
+
 }

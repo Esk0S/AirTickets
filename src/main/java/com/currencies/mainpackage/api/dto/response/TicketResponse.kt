@@ -16,8 +16,8 @@ data class TicketResponse (
 
     val inFlight: Duration,
 
-    val fromPlace: String,
+    val fromPlace: CityObject,
 
-    val toPlace: String
+    val toPlace: CityObject
 
 ) : Serializable

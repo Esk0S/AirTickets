@@ -10,6 +10,10 @@ object ApiPath {
 
     const val ID = "/{id}"
 
+    const val ES = "/es"
+
+    const val ALL = "/all"
+
     const val NAME = "/name"
 
     const val SEARCH = "/search"
@@ -29,5 +33,7 @@ object ApiPath {
     const val SIGN_UP = "/sign-up"
 
     const val HOME = "/home"
+
+    const val REINDEX = "/reindex"
 
 }

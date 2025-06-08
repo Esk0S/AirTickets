@@ -31,13 +31,13 @@ data class CreateTicketRequest (
         requiredMode = REQUIRED,
         example = "1"
     )
-    val fromPlace: String,
+    val fromPlace: Long,
 
     @Schema(
         description = "ID в какой город",
         requiredMode = REQUIRED,
         example = "2"
     )
-    val toPlace: String
+    val toPlace: Long
 
 ) : Serializable

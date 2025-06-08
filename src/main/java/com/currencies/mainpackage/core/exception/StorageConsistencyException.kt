@@ -1,9 +1,9 @@
 package com.currencies.mainpackage.core.exception
 
-class UnauthorizedException : BaseException {
+class StorageConsistencyException : BaseException {
 
     companion object {
-        private const val DEFAULT_MESSAGE = "Не удалось авторизовать пользователя."
+        private const val DEFAULT_MESSAGE = "Сущности из ElasticSearch и базы данных не одинаковы."
     }
 
     constructor() : super(DEFAULT_MESSAGE)

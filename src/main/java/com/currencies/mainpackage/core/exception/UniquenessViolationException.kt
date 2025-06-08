@@ -1,6 +1,6 @@
 package com.currencies.mainpackage.core.exception
 
-class DbUniquenessViolationException : BaseException {
+class UniquenessViolationException : BaseException {
 
     constructor(message: String, vararg params: Any) : super(message, params.asList())
 

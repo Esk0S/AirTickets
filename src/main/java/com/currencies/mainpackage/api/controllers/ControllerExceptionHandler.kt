@@ -1,7 +1,7 @@
 package com.currencies.mainpackage.api.controllers
 
 import com.currencies.mainpackage.api.dto.response.ErrorResponse
-import com.currencies.mainpackage.core.exception.DbUniquenessViolationException
+import com.currencies.mainpackage.core.exception.UniquenessViolationException
 import jakarta.persistence.EntityNotFoundException
 import org.apache.logging.log4j.kotlin.Logging
 import org.springframework.http.HttpStatus
@@ -39,7 +39,7 @@ class ControllerExceptionHandler : Logging {
                 httpStatus = HttpStatus.NOT_FOUND
                 message = e.message
             }
-            is DbUniquenessViolationException -> {
+            is UniquenessViolationException -> {
                httpStatus = HttpStatus.CONFLICT
                message = e.message
             }

@@ -60,8 +60,8 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
             startFlightDate = ticket.startFlightDate,
             endFlightDate = ticket.endFlightDate,
             inFlight = ticket.inFlight,
-            fromPlace = ticket.fromPlace,
-            toPlace = ticket.toPlace
+            fromPlace = mapToCityObject(ticket.fromPlace),
+            toPlace = mapToCityObject(ticket.toPlace)
         )
     }
 
@@ -76,8 +76,8 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
             startFlightDate = request.startFlightDate,
             endFlightDate = request.endFlightDate,
             inFlight = inFlight,
-            fromPlace = request.fromPlace,
-            toPlace = request.toPlace
+            fromPlace = mapToCity(request.fromPlace),
+            toPlace = mapToCity(request.toPlace)
         )
     }
 
@@ -93,8 +93,8 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
             startFlightDate = request.startFlightDate,
             endFlightDate = request.endFlightDate,
             inFlight = inFlight,
-            fromPlace = request.fromPlace,
-            toPlace = request.toPlace
+            fromPlace = mapToCity(request.fromPlace),
+            toPlace = mapToCity(request.toPlace)
         )
     }
 

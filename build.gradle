@@ -46,12 +46,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.session:spring-session-jdbc'
     implementation 'org.hibernate.validator:hibernate-validator:9.0.0.CR1'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:3.2.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:3.2.3'
 
     compileOnly 'org.projectlombok:lombok'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose:3.4.3'
+//    developmentOnly 'org.springframework.boot:spring-boot-docker-compose:3.4.3'
 
     runtimeOnly 'org.postgresql:postgresql'
 

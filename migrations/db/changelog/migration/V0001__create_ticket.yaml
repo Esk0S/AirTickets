@@ -33,42 +33,48 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: from_place
-                  type: varchar(255)
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
                   name: to_place
-                  type: varchar(255)
+                  type: bigint
                   constraints:
                     nullable: false
 
-#        - createTable:
-#            tableName: city
-#            columns:
-#              - column:
-#                  name: id
-#                  type: serial
-#                  constraints:
-#                    primaryKey: true
-#              - column:
-#                  name: name
-#                  type: varchar(255)
-#                  constraints:
-#                    unique: true
-#                    nullable: false
-#
-#        - addForeignKeyConstraint:
-#            baseTableName: ticket
-#            baseColumnNames: from_place
-#            constraintName: fk_ticket_from_place
-#            referencedTableName: city
-#            referencedColumnNames: id
-#            onDelete: CASCADE
-#
-#        - addForeignKeyConstraint:
-#            baseTableName: ticket
-#            baseColumnNames: to_place
-#            constraintName: fk_ticket_to_place
-#            referencedTableName: city
-#            referencedColumnNames: id
-#            onDelete: CASCADE
+        - createTable:
+            tableName: city
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: modification_date
+                  type: timestamp
+                  defaultValueComputed: "CURRENT_TIMESTAMP"
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: ticket
+            baseColumnNames: from_place
+            constraintName: fk_ticket_from_place
+            referencedTableName: city
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: ticket
+            baseColumnNames: to_place
+            constraintName: fk_ticket_to_place
+            referencedTableName: city
+            referencedColumnNames: id
+            onDelete: CASCADE

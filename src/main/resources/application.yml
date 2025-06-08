@@ -25,15 +25,15 @@ spring:
             password: ""
             type: PKCS12
           reload-on-update: true
-#  elasticsearch:
-#    uris: ${ELASTICSEARCH_URL}
-#    connection-timeout: 5s
-#    socket-timeout: 30s
-#    password: es_pass
-#    username: elastic
-#    restclient:
-#      ssl:
-#        bundle: elasticsearch-sslbundle
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URL}
+    connection-timeout: 5s
+    socket-timeout: 30s
+    password: es_pass
+    username: elastic
+    restclient:
+      ssl:
+        bundle: elasticsearch-sslbundle
 
 server:
   port: 8081
@@ -53,3 +53,5 @@ springdoc:
 
 app:
   key: ${KEY_SECRET}
+  indicesUpdatePeriodicity: 0 */10 * * * *
+  indicesUpdatePeriodicityMs: 864_000_000 # 10 minutes

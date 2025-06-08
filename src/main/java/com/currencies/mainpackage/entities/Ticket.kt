@@ -35,12 +35,12 @@ data class Ticket (
     @Column(columnDefinition = "interval")
     val inFlight: Duration,
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "from_place", referencedColumnName = "id")
-    val fromPlace: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "from_place", referencedColumnName = "id")
+    val fromPlace: JpaCity,
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "to_place", referencedColumnName = "id")
-    val toPlace: String
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_place", referencedColumnName = "id")
+    val toPlace: JpaCity
 
 ) : Serializable
