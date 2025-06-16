@@ -1,10 +1,4 @@
 spring:
-  docker:
-    compose:
-      file: docker-compose.yml
-      lifecycle-management: start_only
-      skip:
-        in-tests: true
   datasource:
     url: jdbc:postgresql://localhost:5432/${DB_NAME}
     username: ${DB_USER}
@@ -41,9 +35,6 @@ server:
 logging:
   pattern:
     console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %blue(%.15marker) %clr(${PID: }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
-  level:
-    org.elasticsearch.client: DEBUG
-    org.apache.http: DEBUG
 
 springdoc:
   api-docs:
@@ -53,5 +44,3 @@ springdoc:
 
 app:
   key: ${KEY_SECRET}
-  indicesUpdatePeriodicity: 0 */10 * * * *
-  indicesUpdatePeriodicityMs: 864_000_000 # 10 minutes

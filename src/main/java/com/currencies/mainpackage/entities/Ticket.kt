@@ -35,11 +35,11 @@ data class Ticket (
     @Column(columnDefinition = "interval")
     val inFlight: Duration,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "from_place", referencedColumnName = "id")
     val fromPlace: JpaCity,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "to_place", referencedColumnName = "id")
     val toPlace: JpaCity
 

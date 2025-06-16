@@ -36,4 +36,12 @@ object ApiPath {
 
     const val REINDEX = "/reindex"
 
+    const val PURCHASE = "/purchase"
+
+    const val LOGOUT = "/logout"
+
+    const val ACCOUNT = "/account"
+
+    const val TICKET_DETAILS = "/ticketDetails"
+
 }

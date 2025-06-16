@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 class ControllerExceptionHandler : Logging {
 
     @ExceptionHandler(Throwable::class)
-    fun handleException(e: Throwable):ResponseEntity<ErrorResponse> {
+    fun handleException(e: Throwable): ResponseEntity<ErrorResponse> {
         val httpStatus: HttpStatus
         val message: String?
 

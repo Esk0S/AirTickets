@@ -54,7 +54,7 @@ data class UserRegistrationRequest (
         example = "Nikolay"
     )
     @field:Size(max = 30, message = "Длина имени должна быть в диапазоне до {max}.")
-    val firstName:  String? = null,
+    val firstName: String? = null,
 
     @Schema(
         description = "Фамилия",

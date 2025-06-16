@@ -10,6 +10,8 @@ import com.currencies.mainpackage.api.dto.request.CreateCityRequest
 import com.currencies.mainpackage.api.dto.response.CityResponse
 import com.currencies.mainpackage.core.city.CityService
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@RestController
+@Controller
 @CrossOrigin
 @RequestMapping(CITIES)
 class CityController(private val cityService: CityService) {
@@ -48,9 +50,12 @@ class CityController(private val cityService: CityService) {
         @RequestParam query: String,
         @RequestParam(required = false, defaultValue = "0") page: Int,
         @RequestParam(required = false, defaultValue = "5") size: Int,
-    ): ResponseEntity<List<CityResponse>> {
+        model: Model
+    ): String {
         val citiesPage = cityService.findByName(query, page, size)
-        return ResponseEntity.ok().body(citiesPage.map { it }.toList())
+        val cities = citiesPage.map { it.name }.toList()
+        model.addAttribute("cities", cities)
+        return "fragments/citySuggestions :: cityList"
     }
 
     @PostMapping(NAME)

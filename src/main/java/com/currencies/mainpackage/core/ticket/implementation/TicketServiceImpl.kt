@@ -3,10 +3,12 @@ package com.currencies.mainpackage.core.ticket.implementation
 import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
 import com.currencies.mainpackage.api.dto.response.TicketResponse
 import com.currencies.mainpackage.api.dto.response.`object`.CityObject
+import com.currencies.mainpackage.core.mapToTicketResponse
 import com.currencies.mainpackage.core.ticket.TicketService
 import com.currencies.mainpackage.entities.jpa.JpaCity
 import com.currencies.mainpackage.entities.Ticket
 import com.currencies.mainpackage.repositories.TicketRepository
+import com.currencies.mainpackage.repositories.jpa.JpaCityRepository
 import jakarta.persistence.EntityNotFoundException
 import java.sql.Date
 import java.time.Duration
@@ -14,7 +16,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class TicketServiceImpl(private val ticketRepository: TicketRepository) : TicketService {
+class TicketServiceImpl(
+    private val ticketRepository: TicketRepository,
+    private val jpaCityRepository: JpaCityRepository
+) : TicketService {
 
     override fun findAll(): List<TicketResponse> {
         return ticketRepository.findAll()
@@ -26,11 +31,14 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
     override fun findById(id: Long): TicketResponse {
         return ticketRepository.findById(id)
             .map(::mapToTicketResponse)
-            .orElseThrow { EntityNotFoundException("Id $id is not found") }
+            .orElseThrow { EntityNotFoundException("Билет с id `$id` не найден") }
     }
 
     override fun findTickets(from: String, to: String, startFlightDate: Date): List<TicketResponse> {
-        return ticketRepository.findTickets(from, to, startFlightDate)
+        val fromCity = findCityByName(from)
+        val toCity = findCityByName(to)
+
+        return ticketRepository.findTickets(fromCity, toCity, startFlightDate)
             .stream()
             .map(::mapToTicketResponse)
             .toList()
@@ -44,25 +52,13 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
     @Transactional
     override fun update(id: Long, request: CreateTicketRequest): TicketResponse {
         ticketRepository.findById(id)
-            .orElseThrow { EntityNotFoundException("Ticket $id is not found") }
+            .orElseThrow { EntityNotFoundException("Билет с id `$id` не найден") }
         val editedTicket = updateTicket(id, request)
         return mapToTicketResponse(ticketRepository.save(editedTicket))
     }
 
     override fun delete(id: Long) {
         ticketRepository.deleteById(id)
-    }
-
-    private fun mapToTicketResponse(ticket: Ticket): TicketResponse {
-        return TicketResponse(
-            id = ticket.id!!,
-            price = ticket.price,
-            startFlightDate = ticket.startFlightDate,
-            endFlightDate = ticket.endFlightDate,
-            inFlight = ticket.inFlight,
-            fromPlace = mapToCityObject(ticket.fromPlace),
-            toPlace = mapToCityObject(ticket.toPlace)
-        )
     }
 
     private fun mapToTicket(request: CreateTicketRequest): Ticket {
@@ -76,8 +72,8 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
             startFlightDate = request.startFlightDate,
             endFlightDate = request.endFlightDate,
             inFlight = inFlight,
-            fromPlace = mapToCity(request.fromPlace),
-            toPlace = mapToCity(request.toPlace)
+            fromPlace = findCityById(request.fromPlace),
+            toPlace = findCityById(request.toPlace)
         )
     }
 
@@ -93,13 +89,18 @@ class TicketServiceImpl(private val ticketRepository: TicketRepository) : Ticket
             startFlightDate = request.startFlightDate,
             endFlightDate = request.endFlightDate,
             inFlight = inFlight,
-            fromPlace = mapToCity(request.fromPlace),
-            toPlace = mapToCity(request.toPlace)
+            fromPlace = findCityById(request.fromPlace),
+            toPlace = findCityById(request.toPlace)
         )
     }
 
-    private fun mapToCityObject(jpaCity: JpaCity) = CityObject(id = jpaCity.id!!, name = jpaCity.name)
+    private fun findCityByName(cityName: String): JpaCity {
+        return jpaCityRepository.findByName(cityName)
+            ?: throw EntityNotFoundException("Город $cityName не найден")
+    }
 
-    private fun mapToCity(cityId: Long) = JpaCity(id = cityId, name = "")
-
+    private fun findCityById(cityId: Long): JpaCity {
+        return jpaCityRepository.findById(cityId)
+            .orElseThrow { EntityNotFoundException("Город с id `$cityId` не найден") }
+    }
 }

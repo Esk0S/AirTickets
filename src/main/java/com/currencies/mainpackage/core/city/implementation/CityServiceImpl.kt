@@ -32,40 +32,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CityServiceImpl(
     private val jpaCityRepository: JpaCityRepository,
-    private val esCityRepository: EsCityRepository,
-    @Value("\${app.indicesUpdatePeriodicityMs:0}") private val intervalInMilliseconds: Long
+    private val esCityRepository: EsCityRepository
 ) : CityService, Logging {
-
-    companion object{
-        private const val MODIFICATION_DATE = "modificationDate"
-    }
 
     override fun reindexAll() {
         val cities = jpaCityRepository.findAll()
 
         esCityRepository.deleteAll()
         esCityRepository.saveAll(cities.map(::mapToEsCity))
-    }
-
-//    @Scheduled(cron = "\${app.indicesUpdatePeriodicity}")
-    @Transactional
-    fun sync() {
-        val citySpecification: Specification<JpaCity> =
-            Specification { root: Root<JpaCity>, _: CriteriaQuery<*>?, criteriaBuilder: CriteriaBuilder ->
-                getModificationDatePredicate(
-                    criteriaBuilder,
-                    root
-                )
-            }
-        val cityList = if (esCityRepository.count() == 0L) {
-            jpaCityRepository.findAll()
-        } else {
-            jpaCityRepository.findAll(citySpecification)
-        }
-        for (city in cityList) {
-            logger.info("Syncing City - ${city.name}")
-        }
-        esCityRepository.saveAll(cityList.map(::mapToEsCity))
     }
 
     override fun findAll(): List<CityResponse> {
@@ -191,18 +165,6 @@ class CityServiceImpl(
         }
 
         return mapToCityResponse(jpaCity)
-    }
-
-    private fun getModificationDatePredicate(cb: CriteriaBuilder, root: Root<*>): Predicate {
-        val currentTime = cb.currentTimestamp()
-        val currentTimeMinus = cb.literal(
-            Timestamp(System.currentTimeMillis() - intervalInMilliseconds)
-        )
-        return cb.between(
-            root[MODIFICATION_DATE],
-            currentTimeMinus,
-            currentTime
-        )
     }
 
 }

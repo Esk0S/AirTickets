@@ -8,3 +8,6 @@ databaseChangeLog:
   - include:
       file: migration/V0003__create_spring_session.yaml
       relativeToChangelogFile: true
+  - include:
+      file: migration/V0004__create_purchased_tickets_table.yaml
+      relativeToChangelogFile: true

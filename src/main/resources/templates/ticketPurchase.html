@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Покупка билета</title>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.bundle.min.js" defer></script>
+    <script type="text/javascript" src="/js/script.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <h2 class="my-4">Оформление покупки билета</h2>
+    <h5 th:text="'Из ' + ${ticket.fromPlace.name} + ' в ' + ${ticket.toPlace.name}" ></h5>
+    <h5 th:text="'Время вылета: ' + ${#dates.format(ticket.startFlightDate, 'dd.MM.yyyy в HH:mm')}" ></h5>
+    <h5 th:text="'Время прилёт: ' + ${#dates.format(ticket.endFlightDate, 'dd.MM.yyyy в HH:mm')}" ></h5>
+    <form class="mt-4" action="#" th:action="@{${purchaseUrl} + '/' + ${ticket.id}}" method="post">
+
+        <div class="row">
+            <div class="col-md-4">
+                <label class="mb-1" for="firstName">Имя <span class="required-asterisk">*</span></label>
+                <input
+                        th:value="${authUser != null ? authUser.firstName : ''}"
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        name="firstName"
+                        required
+                >
+            </div>
+            <div class="col-md-4">
+                <label for="lastName">Фамилия <span class="required-asterisk">*</span></label>
+                <input
+                        th:value="${authUser != null ? authUser.lastName : ''}"
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        name="lastName"
+                        required
+                >
+            </div>
+            <div class="col-md-4">
+                <label class="mb-1" for="middleName">Отчество</label>
+                <input
+                        th:value="${authUser != null ? authUser.middleName : ''}"
+                        type="text"
+                        class="form-control"
+                        id="middleName"
+                        name="middleName"
+                >
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label class="mb-1" for="birthDate">Дата рождения <span class="required-asterisk">*</span></label>
+                <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+            </div>
+            <div class="col-md-4">
+                <label class="mb-1" for="passportNumber">Серия и номер паспорта <span class="required-asterisk">*</span></label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="passportNumber"
+                        name="passportNumber"
+                        maxlength="11"
+                        required
+                        oninput="formatPassport(this)"
+                >
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="withBaggage" name="withBaggage">
+                    <label class="form-check-label" for="withBaggage">
+                        Взять багаж
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="mt-4 btn btn-primary">Подтвердить покупку</button>
+    </form>
+</div>
+</body>
+</html>

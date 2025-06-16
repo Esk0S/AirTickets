@@ -22,10 +22,6 @@ data class JpaCity (
 
     val name: String,
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    val modificationDate: Timestamp? = null
-
 ) : Serializable {
 
     override fun equals(other: Any?): Boolean {

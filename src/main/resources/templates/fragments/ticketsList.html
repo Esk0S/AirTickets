@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<div th:fragment="ticketsTable" class="mt-5">
+  <table class="table table-bordered misterTable">
+    <thead>
+      <tr>
+        <th>Откуда</th>
+        <th>Куда</th>
+        <th>Цена</th>
+        <th>Время вылета</th>
+        <th>Время прилёта</th>
+        <th>В полёте</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="ticketRow : ${ticketRows}">
+        <td th:text="${ticketRow.fromPlace.name}"></td>
+        <td th:text="${ticketRow.toPlace.name}"></td>
+        <td th:text="${ticketRow.price}"></td>
+        <td th:text="${#dates.format(ticketRow.startFlightDate, 'dd.MM.yyyy в HH:mm')}"></td>
+        <td th:text="${#dates.format(ticketRow.endFlightDate, 'dd.MM.yyyy в HH:mm')}"></td>
+        <td th:text="${@durationFormatter.formatDuration(ticketRow.inFlight)}"></td>
+        <td th:if="${isPurchaseButtonShown}">
+          <a class="btn btn-success" th:href="@{${ticketPurchaseUrl} + '/' + ${ticketRow.id}}">
+            Купить
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</html>

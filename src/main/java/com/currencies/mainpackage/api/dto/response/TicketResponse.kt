@@ -6,6 +6,7 @@ import java.sql.Timestamp
 import java.time.Duration
 
 data class TicketResponse (
+
     val id: Long,
 
     val price: Int,

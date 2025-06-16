@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<div th:fragment="purchasesTable" class="mt-5">
+  <h2 class="text-center">Купленные билеты</h2>
+  <table class="table table-bordered misterTable">
+    <thead>
+      <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Отчество</th>
+        <th>Дата рождения</th>
+        <th>Серия и номер паспорта</th>
+        <th>Багаж</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="purchase : ${purchases}">
+        <td th:text="${purchase.firstName}"></td>
+        <td th:text="${purchase.lastName}"></td>
+        <td th:text="${purchase.middleName}"></td>
+        <td th:text="${purchase.birthDate.format(T(java.time.format.DateTimeFormatter).ofPattern('dd.MM.yyyy'))}"></td>
+        <td th:text="${purchase.passportNumber}"></td>
+        <td th:text="${purchase.withBaggage ? 'Да' : 'Нет'}"></td>
+        <td>
+          <a th:href="${ticketDetailsUrl} + '/' + ${purchase.ticket.id}"
+             class="details-button btn btn-primary"
+             th:id="detailsButton + ${purchase.id}"
+             data-toggle="modal"
+             data-target="#exampleModal"
+             th:data-ticket-id="${purchase.ticket.id}"
+          >
+            Подробнее
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="ticketDetails"></div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script th:inline="javascript">
+      const ticketDetailsUrl = /*[[${ticketDetailsUrl}]]*/ ''
+
+      document.querySelectorAll('.details-button').forEach(function(button) {
+          button.addEventListener('click', function(event) {
+              event.preventDefault();
+
+              const ticketId = button.getAttribute('data-ticket-id');
+              getTicketDetails(ticketDetailsUrl + '/' + ticketId);
+          });
+      });
+  </script>
+</div>
+</html>

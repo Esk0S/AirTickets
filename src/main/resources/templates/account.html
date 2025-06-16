@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Личный кабинет</title>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <script type="text/javascript" src="/js/script.js" defer></script>
+    <script type="text/javascript" src="/js/axios/axios.min.js" defer></script>
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container mt-4" style="width: 50%">
+    <h2 class="text-center">Личный кабинет</h2>
+
+    <form class="mt-4" action="#" th:action="@{/user/update}" method="post" th:object="${user}">
+        <div class="mb-3 fioAccount ">
+            <label for="firstName" class="form-label">Имя</label>
+            <input type="text" id="firstName" name="firstName" th:value="*{firstName}" class="form-control" required>
+        </div>
+
+        <div class="mb-3 fioAccount">
+            <label for="lastName" class="form-label">Фамилия</label>
+            <input type="text" id="lastName" name="lastName" th:value="*{lastName}" class="form-control" required>
+        </div>
+
+        <div class="mb-3 fioAccount">
+            <label for="middleName" class="form-label">Отчество</label>
+            <input type="text" id="middleName" name="middleName" th:value="*{middleName}" class="form-control">
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+
+    <div
+            th:replace="fragments/purchasesList :: purchasesTable"
+            th:with="purchases=${purchases}, ticketDetailsUrl=${ticketDetailsUrl}"
+    ></div>
+
+</div>
+
+<script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>

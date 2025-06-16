@@ -54,6 +54,6 @@ data class UserResponse (
         requiredMode = NOT_REQUIRED,
         example = "Alexandrovich"
     )
-    var middleName: String? = null,
+    var middleName: String? = null
 
 ) : Serializable

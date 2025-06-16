@@ -1,6 +1,8 @@
 package com.currencies.mainpackage.config
 
+import com.currencies.mainpackage.api.ApiPath.HOME
 import com.currencies.mainpackage.api.ApiPath.LOGIN
+import com.currencies.mainpackage.api.ApiPath.LOGOUT
 import com.currencies.mainpackage.api.ApiPath.SIGN_UP
 import com.currencies.mainpackage.api.ApiPath.USERS
 import org.springframework.beans.factory.annotation.Value
@@ -22,8 +24,6 @@ import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHtt
 @Configuration
 @EnableWebSecurity
 @EnableJdbcHttpSession
-//@EnableJpaRepositories(basePackages = ["com.currencies.mainpackage.repositories.jpa"])
-//@EnableElasticsearchRepositories(basePackages = ["com.currencies.mainpackage.repositories.es"])
 class AuthConfig(
     @Value("\${app.key}") private val secretKey: String
 ) {
@@ -70,8 +70,8 @@ class AuthConfig(
                 permitAll = true
             }
             logout {
-                logoutUrl = "/logout"
-                logoutSuccessUrl = "/login?logout"
+                logoutUrl = LOGOUT
+                logoutSuccessUrl = HOME
                 permitAll = true
             }
         }

@@ -26,16 +26,16 @@ interface SwaggerTicketController {
         @PathVariable id: Long
     ): ResponseEntity<TicketResponse>
 
-    fun findByFromAndFromTo(
-        @Parameter(example = "отсюда")
-        @RequestParam fromPlace: String,
-
-        @Parameter(example = "сюда")
-        @RequestParam toPlace: String,
-
-        @Parameter(example = "2025-03-30")
-        @RequestParam `when`: Date
-    ): ResponseEntity<List<TicketResponse>>
+//    fun findByFromAndFromTo(
+//        @Parameter(example = "отсюда")
+//        @RequestParam fromPlace: String,
+//
+//        @Parameter(example = "сюда")
+//        @RequestParam toPlace: String,
+//
+//        @Parameter(example = "2025-03-30")
+//        @RequestParam `when`: Date
+//    ): ResponseEntity<List<TicketResponse>>
 
     @ApiResponseCreated
     @ApiResponseConflict

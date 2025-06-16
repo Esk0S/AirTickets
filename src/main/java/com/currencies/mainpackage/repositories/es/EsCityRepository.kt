@@ -22,6 +22,4 @@ interface EsCityRepository : ElasticsearchRepository<EsCity, Long> {
 
     fun findByName(name: String): EsCity?
 
-//    @Query("{\"match_phrase_prefix\": {\"city_name\": \"?0\"}}")
-
 }

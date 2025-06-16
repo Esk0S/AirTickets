@@ -39,5 +39,6 @@ data class User (
 
     val middleName: String? = null,
 
-    val isEnabled: Boolean = true,
+    val isEnabled: Boolean = true
+
 ) : Serializable

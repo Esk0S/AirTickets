@@ -17,7 +17,6 @@ services:
       - ./volumes/postgresql:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
   liquibase:
     image: liquibase/liquibase:4.31
     container_name: liquibase
@@ -35,7 +34,6 @@ services:
         "--logLevel=info",
         "update"
       ]
-
   elasticsearch:
     image: elasticsearch:9.0.1
     container_name: elasticsearch
@@ -47,13 +45,12 @@ services:
       - xpack.security.enabled=true
       - xpack.security.authc.apiKey.enabled=true
       - xpack.security.enrollment.enabled=true
-
       - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.keystore.path=/usr/share/elasticsearch/config/ssl/new_cert.p12
       - xpack.security.http.ssl.truststore.path=/usr/share/elasticsearch/config/ssl/new_cert.p12
       - xpack.security.transport.ssl.enabled=true
       - xpack.security.transport.ssl.keystore.path=/usr/share/elasticsearch/config/ssl/new_cert.p12
-      - xpack.security.transport.ssl.truststore.path=/usr/share/elasticsearch/config/ssl/new_cert.p12 #certificate-bundle
+      - xpack.security.transport.ssl.truststore.path=/usr/share/elasticsearch/config/ssl/new_cert.p12
       - ELASTIC_PASSWORD=${ELASTICSEARCH_PASS}
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
     ulimits:
@@ -69,7 +66,6 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
-
   kibana:
     image: kibana:9.0.1
     container_name: kibana

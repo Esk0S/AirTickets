@@ -2,6 +2,7 @@ package com.currencies.mainpackage.api.controllers.html
 
 import com.currencies.mainpackage.api.ApiPath
 import com.currencies.mainpackage.api.ApiPath.SIGN_UP
+import com.currencies.mainpackage.api.ApiPath.USERS
 import com.currencies.mainpackage.api.HtmlPath
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -12,7 +13,7 @@ class UserHtmlController {
 
     @GetMapping(SIGN_UP)
     fun signUpPage(model: Model): String {
-        model.addAttribute("signUpUrl", ApiPath.USERS + ApiPath.SIGN_UP)
+        model.addAttribute("signUpUrl", USERS + SIGN_UP)
         return HtmlPath.REGISTER
     }
 

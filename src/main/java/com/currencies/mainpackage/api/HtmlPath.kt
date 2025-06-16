@@ -6,4 +6,9 @@ object HtmlPath {
     const val REGISTER = "register"
 
     const val INDEX = "index"
+
+    const val TICKET_PURCHASE = "ticketPurchase"
+
+    const val ACCOUNT = "account"
+
 }

@@ -1,32 +1,59 @@
-// document.getElementById("dateInput")
-//     .addEventListener("change",
-function checkDate() {
-    const input = document.getElementById("dateInput").value;
-    const dateEntered = new Date(input);
-
-    console.log(input); //e.g. 2015-11-13
-    console.log(dateEntered); //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
+function searchCities(inputId, datalistId, searchCitiesUrl) {
+    const inputElement = document.getElementById(inputId);
+    const datalistElement = document.getElementById(datalistId);
+    if (inputElement.value.length > 1) {
+        axios.get(searchCitiesUrl, { params: { query: inputElement.value } })
+            .then(function (response) {
+                datalistElement.innerHTML = response.data;
+            })
+            .catch(function (error) {
+                console.error('Ошибка при получении данных: ', error);
+            });
+    } else {
+        datalistElement.innerHTML = '';
+    }
 }
 
-function searchCities(inputElement, type) {
-    const query = inputElement.value;
-    const listId = (type === 'from') ? "fromPlaceList" : "toPlaceList";
-    const url = "/tickets/searchCities?query=" + query;
+function getTicketsTable(searchTicketsUrl) {
+    const fromPlaceElement = document.getElementById('fromPlace');
+    const toPlaceElement = document.getElementById('toPlace');
+    const whenElement = document.getElementById('dateInput');
+    const ticketsTableElement = document.getElementById('ticketsTable');
 
-    axios.get(url)
-        .then(function(response) {
-            // Очистить старые элементы в списке datalist
-            const datalist = document.getElementById(listId);
-            datalist.innerHTML = "";
-
-            // Заполняем новый список значениями
-            response.data.forEach(function(city) {
-                const option = document.createElement("option");
-                option.value = city;
-                datalist.appendChild(option);
-            });
+    axios.get(searchTicketsUrl, {
+        params: {
+            fromPlace: fromPlaceElement.value,
+            toPlace: toPlaceElement.value,
+            when: whenElement.value,
+        }
+    })
+        .then(function (response) {
+            ticketsTableElement.innerHTML = response.data;
         })
-        .catch(function(error) {
-            console.error("Ошибка при загрузке данных:", error);
+        .catch(function (error) {
+            console.error('Ошибка при получении данных: ', error);
+        });
+}
+
+function formatPassport(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.length <= 4) {
+        input.value = value.replace(/(\d{1,4})/, '$1');
+    } else if (value.length <= 10) {
+        input.value = value.replace(/(\d{4})(\d{1,6})/, '$1 $2');
+    } else {
+        input.value = value.replace(/(\d{4})(\d{6})/, '$1 $2');
+    }
+}
+
+function getTicketDetails(ticketDetailsUrl) {
+    const ticketDetails = document.getElementById('ticketDetails');
+
+    axios.get(ticketDetailsUrl)
+        .then(function (response) {
+            ticketDetails.innerHTML = response.data;
+        })
+        .catch(function (error) {
+            console.error('Ошибка при получении данных: ', error);
         });
 }
