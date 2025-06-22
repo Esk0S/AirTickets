@@ -17,12 +17,13 @@
 </head>
 <body>
 <div class="container mt-4">
-    <div class="d-flex justify-content-end">
-        <a th:href="@{${isLoggedIn} ? ${logoutUrl} : ${loginUrl}}" class="text-decoration-none">
-            <span th:text="${isLoggedIn} ? 'Выход' : 'Вход'"></span>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a th:if="${isLoggedIn}" th:href="@{${accountUrl}}" class="text-decoration-none me-3 fs-5">
+            <span>Аккаунт</span>
         </a>
     </div>
-    <p class="mainText text-center">Поиск авиабилетов</p>
+    <p class="mt-4 mainText text-center">Поиск авиабилетов</p>
     <form id="ticketSearchForm">
         <div class="row justify-content-center">
             <div class="col-md-3 mb-2">

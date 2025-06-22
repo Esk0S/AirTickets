@@ -16,31 +16,59 @@
 </head>
 <body>
 <div class="container mt-4" style="width: 50%">
-    <h2 class="text-center">Личный кабинет</h2>
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{${homeUrl}}" class="text-decoration-none fs-5">
+            <span>На главную</span>
+        </a>
+    </div>
 
-    <form class="mt-4" action="#" th:action="@{/user/update}" method="post" th:object="${user}">
-        <div class="mb-3 fioAccount ">
+    <h2 class="text-center mainText">Личный кабинет</h2>
+    <form class="mt-4" id="updateForm" th:object="${changeUserDataRequest}" th:action="@{${updateUserUrl}}" method="post">
+        <div class="mb-3 fioAccount">
             <label for="firstName" class="form-label">Имя</label>
-            <input type="text" id="firstName" name="firstName" th:value="*{firstName}" class="form-control" required>
+            <input type="text" id="firstName" name="firstName" th:value="${user.firstName}" class="form-control" required>
         </div>
 
         <div class="mb-3 fioAccount">
             <label for="lastName" class="form-label">Фамилия</label>
-            <input type="text" id="lastName" name="lastName" th:value="*{lastName}" class="form-control" required>
+            <input type="text" id="lastName" name="lastName" th:value="${user.lastName}" class="form-control" required>
         </div>
 
         <div class="mb-3 fioAccount">
             <label for="middleName" class="form-label">Отчество</label>
-            <input type="text" id="middleName" name="middleName" th:value="*{middleName}" class="form-control">
+            <input type="text" id="middleName" name="middleName" th:value="${user.middleName}" class="form-control">
         </div>
 
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button id="submitButton" type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+
+        <div th:if="${changeUserDataRequest != null and #fields.hasErrors()}" class="alert alert-danger mt-3">
+            <ul>
+                <li
+                    th:if="${#fields.hasErrors('firstName')}"
+                    th:each="error : ${#fields.errors('firstName')}"
+                >
+                    <div th:utext="${error}"></div>
+                </li>
+                <li
+                    th:if="${#fields.hasErrors('lastName')}"
+                    th:each="error : ${#fields.errors('lastName')}"
+                >
+                    <div th:utext="${error}"></div>
+                </li>
+                <li
+                    th:if="${#fields.hasErrors('middleName')}"
+                    th:each="error : ${#fields.errors('middleName')}"
+                >
+                    <div th:utext="${error}"></div>
+                </li>
+            </ul>
         </div>
     </form>
 
     <div
-            th:replace="fragments/purchasesList :: purchasesTable"
+            th:replace="~{fragments/purchasesList :: purchasesTable}"
             th:with="purchases=${purchases}, ticketDetailsUrl=${ticketDetailsUrl}"
     ></div>
 

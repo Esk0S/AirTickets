@@ -2,11 +2,10 @@ package com.currencies.mainpackage.core.ticket.implementation
 
 import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
 import com.currencies.mainpackage.api.dto.response.TicketResponse
-import com.currencies.mainpackage.api.dto.response.`object`.CityObject
 import com.currencies.mainpackage.core.mapToTicketResponse
 import com.currencies.mainpackage.core.ticket.TicketService
-import com.currencies.mainpackage.entities.jpa.JpaCity
 import com.currencies.mainpackage.entities.Ticket
+import com.currencies.mainpackage.entities.jpa.JpaCity
 import com.currencies.mainpackage.repositories.TicketRepository
 import com.currencies.mainpackage.repositories.jpa.JpaCityRepository
 import jakarta.persistence.EntityNotFoundException

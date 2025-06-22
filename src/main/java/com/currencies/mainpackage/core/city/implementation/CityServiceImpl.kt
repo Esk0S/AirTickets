@@ -13,19 +13,11 @@ import com.currencies.mainpackage.entities.jpa.JpaCity
 import com.currencies.mainpackage.repositories.es.EsCityRepository
 import com.currencies.mainpackage.repositories.jpa.JpaCityRepository
 import jakarta.persistence.EntityNotFoundException
-import jakarta.persistence.criteria.CriteriaBuilder
-import jakarta.persistence.criteria.CriteriaQuery
-import jakarta.persistence.criteria.Predicate
-import jakarta.persistence.criteria.Root
-import java.sql.Timestamp
 import java.util.Comparator.comparingInt
 import org.apache.logging.log4j.kotlin.Logging
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.jpa.domain.Specification
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -52,38 +44,12 @@ class CityServiceImpl(
             .orElseThrow { NotFoundException("Город с ID `$id` не найден") }
     }
 
-//    fun suggestCities(prefix: String): List<CitySuggestResponse> {
-//        val query = QueryBuilders.queryString("suggest", prefix)
-//
-//        val searchQuery = NativeSearchQueryBuilder()
-//            .withQuery(QueryBuilders.matchQuery("suggest", prefix))
-//            .build()
-//
-//        val searchResult = elasticsearchTemplate.queryForList(City::class.java, searchQuery)
-//
-//        return searchResult.map { it.cityName }
-//    }
-
-    override fun findByName(name: String, page: Int, size: Int): Page<CityResponse> {
+    override fun findByName(name: String, page: Int, size: Int): List<CityResponse> {
         val pageable = PageRequest.of(page, size)
         val searchResult = esCityRepository.searchForCities(name, pageable)
+        val esCities = searchResult.getContent()
 
-        val idsMap = HashMap<Long, Int>()
-        val esCities: List<EsCity> = searchResult.getContent()
-        for (i in esCities.indices) {
-            idsMap[esCities[i].id as Long] = i
-        }
-
-        val ids = idsMap.keys
-
-        val citiesFromDb = jpaCityRepository.findAllById(ids)
-        citiesFromDb.sortWith(comparingInt{ city -> idsMap[city.id] as Int })
-
-        return PageImpl(
-            citiesFromDb.map(::mapToCityResponse),
-            pageable,
-            searchResult.totalElements
-        )
+        return esCities.map(::mapToCityResponse)
     }
 
     override fun saveJpa(request: CreateCityRequest): CityResponse {

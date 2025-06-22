@@ -1,12 +1,8 @@
 package com.currencies.mainpackage.core.city
 
-import org.springframework.data.domain.Page
 import com.currencies.mainpackage.api.dto.request.CreateCityRequest
-import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
-import com.currencies.mainpackage.api.dto.response.CitiesListResponse
 import com.currencies.mainpackage.api.dto.response.CityResponse
-import com.currencies.mainpackage.api.dto.response.TicketResponse
-import java.sql.Date
+import org.springframework.data.domain.Page
 
 interface CityService {
 
@@ -16,7 +12,7 @@ interface CityService {
 
     fun findById(id: Long): CityResponse?
 
-    fun findByName(name: String, page: Int, size: Int): Page<CityResponse>
+    fun findByName(name: String, page: Int, size: Int): List<CityResponse>
 
     fun saveJpa(request: CreateCityRequest): CityResponse
 

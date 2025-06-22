@@ -33,7 +33,7 @@ data class ChangeUserDataRequest (
         requiredMode = NOT_REQUIRED,
         example = "Nikolay"
     )
-    @field:Size(max = 30, message = "Длина имени должна быть в диапазоне от {min} до {max}.")
+    @field:Size(min = 1, max = 30, message = "Длина имени должна быть в диапазоне от {min} до {max}.")
     val firstName: String? = null,
 
     @Schema(
@@ -41,7 +41,7 @@ data class ChangeUserDataRequest (
         requiredMode = NOT_REQUIRED,
         example = "Petrov"
     )
-    @field:Size(max = 30, message = "Длина фамилии должна быть в диапазоне от {min} до {max}.")
+    @field:Size(min = 1, max = 30, message = "Длина фамилии должна быть в диапазоне от {min} до {max}.")
     val lastName: String? = null,
 
     @Schema(
@@ -49,7 +49,7 @@ data class ChangeUserDataRequest (
         requiredMode = NOT_REQUIRED,
         example = "Alexandrovich"
     )
-    @field:Size(max = 30, message = "Длина отчества должна быть в диапазоне от {min} до {max}.")
+    @field:Size(min = 1, max = 30, message = "Длина отчества должна быть в диапазоне от {min} до {max}.")
     val middleName: String? = null
 
 ) : Serializable

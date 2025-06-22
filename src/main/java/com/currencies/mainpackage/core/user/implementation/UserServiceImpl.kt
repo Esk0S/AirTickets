@@ -18,16 +18,15 @@ import com.currencies.mainpackage.repositories.UserRepository
 import org.apache.logging.log4j.Marker
 import org.apache.logging.log4j.MarkerManager
 import org.apache.logging.log4j.kotlin.Logging
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 
 @Service
 class UserServiceImpl (
@@ -66,7 +65,6 @@ class UserServiceImpl (
 
         val user = userDto.toUser()
         userRepository.save(user)
-//        userRepository.flush()
         logger.info(marker, "User ${user.username} created")
 
         authService.authenticate(LoginRequest(userDto.username, userDto.password))
@@ -87,45 +85,17 @@ class UserServiceImpl (
     override fun editData(id: Long, changeUserDataRequest: ChangeUserDataRequest): UserResponse {
         val user = findUserByIdOrThrowException(id)
 
-//        UserValidator.checkFieldUniqueness(
-//            userRepository.findByEmailAndOtherId(changeUserDataRequest.getEmail(), id).isPresent(),
-//            MessageKeys.USER_UNIQ_EMAIL,
-//            changeUserDataRequest.getEmail()
-//        )
-//        UserValidator.checkFieldUniqueness(
-//            userRepository.findByLoginAndOtherId(changeUserDataRequest.getLogin(), id).isPresent(),
-//            MessageKeys.USER_UNIQ_LOGIN,
-//            changeUserDataRequest.getLogin()
-//        )
-
-//        if (changeUserDataRequest.getLogin() != null) {
-//            user.setLogin(changeUserDataRequest.getLogin())
-//        }
-//        if (changeUserDataRequest.getEmail() != null) {
-//            user.setEmail(changeUserDataRequest.getEmail())
-//        }
-//        if (changeUserDataRequest.getFirstName() != null) {
-//            user.setFirstName(changeUserDataRequest.getFirstName())
-//        }
-//        if (changeUserDataRequest.getLastName() != null) {
-//            user.setLastName(changeUserDataRequest.getLastName())
-//        }
-//        if (changeUserDataRequest.getMiddleName() != null) {
-//            user.setMiddleName(changeUserDataRequest.getMiddleName())
-//        }
-//        if (changeUserDataRequest.getOrganization() != null) {
-//            user.setOrganization(changeUserDataRequest.getOrganization())
-//        }
-
-        val updatedUser = user.copy(
-            email = changeUserDataRequest.email ?: user.email,
-            username = changeUserDataRequest.username ?: user.username,
+        val userCopy = user.copy(
             firstName = changeUserDataRequest.firstName ?: user.firstName,
             lastName = changeUserDataRequest.lastName ?: user.lastName,
             middleName = changeUserDataRequest.middleName ?: user.middleName
         )
 
-        userRepository.save(updatedUser)
+        val updatedUser = userRepository.save(userCopy)
+
+        val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
+        val session = request.getSession(false)
+        session?.invalidate()
 
         logger.info(marker, "User ${user.username} has changed their data")
         return updatedUser.toUserResponse()

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
 
 @Controller
 @CrossOrigin
@@ -52,8 +51,7 @@ class CityController(private val cityService: CityService) {
         @RequestParam(required = false, defaultValue = "5") size: Int,
         model: Model
     ): String {
-        val citiesPage = cityService.findByName(query, page, size)
-        val cities = citiesPage.map { it.name }.toList()
+        val cities = cityService.findByName(query, page, size).map { it.name }.toList()
         model.addAttribute("cities", cities)
         return "fragments/citySuggestions :: cityList"
     }

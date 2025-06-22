@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<div class="container mt-5">
+<div class="container mt-4">
     <h1 class="text-center">Регистрация</h1>
     <form th:action="@{${signUpUrl}}" th:object="${userRegistrationRequest}" method="post">
 
@@ -55,14 +55,14 @@
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </div>
 
-        <div th:if="${userRegistrationRequest != null and #fields.hasErrors()}" class="alert alert-danger mt-3">
-            <ul>
-                <li
-                    th:if="${#fields.hasErrors('username')}"
-                    th:each="error : ${#fields.errors('username')}"
-                >
-                    <div th:utext="${error}"></div>
-                </li>
+<div th:if="${userRegistrationRequest != null and #fields.hasErrors()}" class="alert alert-danger mt-3">
+  <ul>
+    <li
+      th:if="${#fields.hasErrors('username')}"
+      th:each="error : ${#fields.errors('username')}"
+    >
+    <div th:utext="${error}"></div>
+    </li>
                 <li
                     th:if="${#fields.hasErrors('password')}"
                     th:each="error : ${#fields.errors('password')}"

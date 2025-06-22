@@ -1,5 +1,6 @@
 package com.currencies.mainpackage.api.controllers
 
+import com.currencies.mainpackage.api.ApiPath.ACCOUNT
 import com.currencies.mainpackage.api.ApiPath.HOME
 import com.currencies.mainpackage.api.ApiPath.ID
 import com.currencies.mainpackage.api.ApiPath.LIST
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -88,12 +88,28 @@ class UserController(private val userService: UserService) : SwaggerUserControll
         return ResponseEntity.ok().body(userResponse)
     }
 
-    @PatchMapping(PROFILE)
-    override fun editProfileData(@RequestBody @Valid changeUserDataRequest: ChangeUserDataRequest): ResponseEntity<UserResponse> {
-        val userResponse: UserResponse = userService.editData(
-            userService.authenticatedUser.id,
-            changeUserDataRequest
-        )
-        return ResponseEntity.ok().body(userResponse)
+    @PostMapping(PROFILE)
+    fun editProfileData(
+        @ModelAttribute @Valid changeUserDataRequest: ChangeUserDataRequest,
+        bindingResult: BindingResult,
+        redirectAttributes: RedirectAttributes
+    ): String {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                "changeUserDataRequest",
+                changeUserDataRequest
+            )
+            redirectAttributes.addFlashAttribute(
+                "org.springframework.validation.BindingResult.changeUserDataRequest",
+                bindingResult
+            )
+        } else {
+            userService.editData(
+                userService.authenticatedUser.id,
+                changeUserDataRequest
+            )
+        }
+
+        return "redirect:$ACCOUNT"
     }
 }

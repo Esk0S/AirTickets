@@ -13,7 +13,6 @@ import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive
 import jakarta.validation.constraints.PositiveOrZero
 import org.springframework.http.ResponseEntity
-import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,7 +32,6 @@ interface SwaggerUserController {
     @ApiResponseIllegalValue
     @ApiResponseNotFound
 //    @ApiResponseSessionIsOver
-    @SecurityRequirement(name = "JWT")
     fun getById(
         @PathVariable @Parameter(example = "1") id: Long
     ): ResponseEntity<UserResponse>
@@ -53,23 +51,18 @@ interface SwaggerUserController {
 
     @Operation(summary = "Информация о текущем авторизованном пользователе")
 //    @ApiResponseSessionIsOver
-    @SecurityRequirement(name = "JWT")
     fun getProfile(): ResponseEntity<UserResponse>
 
     @ApiResponseIllegalValue
     @ApiResponseNotFound
 //    @ApiResponseSessionIsOver
-    @SecurityRequirement(name = "JWT")
     fun editPassword(
         @RequestBody @Valid changePasswordRequest: ChangePasswordRequest
     ): ResponseEntity<UserResponse>
 
-    @ApiResponseIllegalValue
-    @ApiResponseNotFound
-//    @ApiResponseSessionIsOver
-    @SecurityRequirement(name = "JWT")
-    fun editProfileData(
-        @RequestBody @Valid changeUserDataRequest: ChangeUserDataRequest
-    ): ResponseEntity<UserResponse>
+//    @ApiResponseIllegalValue
+//    @ApiResponseNotFound
+////    @ApiResponseSessionIsOver
+//    fun editProfileData(@RequestBody @Valid changeUserDataRequest: ChangeUserDataRequest): String
 
 }

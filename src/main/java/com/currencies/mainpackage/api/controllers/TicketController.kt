@@ -8,9 +8,7 @@ import com.currencies.mainpackage.api.docs.SwaggerTicketController
 import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
 import com.currencies.mainpackage.api.dto.response.TicketResponse
 import com.currencies.mainpackage.core.ticket.TicketService
-import com.currencies.mainpackage.entities.Ticket
 import java.sql.Date
-import java.time.Duration
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller

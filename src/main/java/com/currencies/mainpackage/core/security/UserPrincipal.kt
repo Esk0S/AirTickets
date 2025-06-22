@@ -2,7 +2,6 @@ package com.currencies.mainpackage.core.security
 
 import com.currencies.mainpackage.core.exception.UserPrincipalException
 import com.currencies.mainpackage.entities.User
-import org.springframework.security.core.CredentialsContainer
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

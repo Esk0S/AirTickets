@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserDetailsServiceImpl(private val userRepository: UserRepository) : UserDetailsService, Logging {
 
-    private val marker: Marker = MarkerManager.getMarker("USER SERVICE")
+    private val marker: Marker = MarkerManager.getMarker("USER DETAILS SERVICE")
 
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByUsername(username)
@@ -21,15 +21,6 @@ class UserDetailsServiceImpl(private val userRepository: UserRepository) : UserD
 
         logger.info(marker, "User $username found")
         return UserPrincipal(user)
-//        return User(
-//            user.username,
-//            user.password,
-//            user.isEnabled,
-//            true,
-//            true,
-//            true,
-//            user.roles.map { SimpleGrantedAuthority(it.name) }
-//        )
     }
 
 }

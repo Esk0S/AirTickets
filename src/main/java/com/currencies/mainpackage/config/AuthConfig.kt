@@ -1,6 +1,5 @@
 package com.currencies.mainpackage.config
 
-import com.currencies.mainpackage.api.ApiPath.HOME
 import com.currencies.mainpackage.api.ApiPath.LOGIN
 import com.currencies.mainpackage.api.ApiPath.LOGOUT
 import com.currencies.mainpackage.api.ApiPath.SIGN_UP
@@ -28,6 +27,10 @@ class AuthConfig(
     @Value("\${app.key}") private val secretKey: String
 ) {
 
+    companion object {
+        private const val ADMIN = "ADMIN"
+    }
+
     @Bean
     fun authenticationManager(authConfig: AuthenticationConfiguration): AuthenticationManager {
         return authConfig.authenticationManager
@@ -44,9 +47,9 @@ class AuthConfig(
                 sessionCreationPolicy = SessionCreationPolicy.IF_REQUIRED
             }
             authorizeHttpRequests {
-                authorize("/swagger.html", permitAll)
-                authorize("/swagger-ui/*", permitAll)
-                authorize("/api-docs/**", permitAll)
+                authorize("/swagger.html", hasRole(ADMIN))
+                authorize("/swagger-ui/*", hasRole(ADMIN))
+                authorize("/api-docs/**", hasRole(ADMIN))
 
                 authorize(HttpMethod.GET, "/css/**", permitAll)
                 authorize(HttpMethod.GET, "/js/**", permitAll)
@@ -54,7 +57,6 @@ class AuthConfig(
 
                 authorize(HttpMethod.GET, SIGN_UP, permitAll)
                 authorize(HttpMethod.POST, USERS + SIGN_UP, permitAll)
-                authorize("/**", permitAll)
                 authorize(anyRequest, authenticated)
             }
             rememberMe {
@@ -71,7 +73,7 @@ class AuthConfig(
             }
             logout {
                 logoutUrl = LOGOUT
-                logoutSuccessUrl = HOME
+                logoutSuccessUrl = LOGIN
                 permitAll = true
             }
         }

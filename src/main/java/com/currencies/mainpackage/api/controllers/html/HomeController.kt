@@ -1,6 +1,7 @@
 package com.currencies.mainpackage.api.controllers.html
 
 import com.currencies.mainpackage.api.ApiPath
+import com.currencies.mainpackage.api.ApiPath.ACCOUNT
 import com.currencies.mainpackage.api.ApiPath.CITIES
 import com.currencies.mainpackage.api.ApiPath.LOGIN
 import com.currencies.mainpackage.api.ApiPath.LOGOUT
@@ -33,6 +34,7 @@ class HomeController {
         model.addAttribute("ticketPurchaseUrl", PURCHASE)
         model.addAttribute("loginUrl", LOGIN)
         model.addAttribute("logoutUrl", LOGOUT)
+        model.addAttribute("accountUrl", ACCOUNT)
         model.addAttribute("isLoggedIn", userPrincipal != null)
 
         return HtmlPath.INDEX

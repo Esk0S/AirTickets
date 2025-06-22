@@ -15,7 +15,13 @@
     <script type="text/javascript" src="/js/script.js" defer></script>
 </head>
 <body>
-<div class="container">
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{${homeUrl}}" class="text-decoration-none fs-5">
+            <span>На главную</span>
+        </a>
+    </div>
+
     <h2 class="my-4">Оформление покупки билета</h2>
     <h5 th:text="'Из ' + ${ticket.fromPlace.name} + ' в ' + ${ticket.toPlace.name}" ></h5>
     <h5 th:text="'Время вылета: ' + ${#dates.format(ticket.startFlightDate, 'dd.MM.yyyy в HH:mm')}" ></h5>

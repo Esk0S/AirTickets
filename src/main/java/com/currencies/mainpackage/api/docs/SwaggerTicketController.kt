@@ -8,11 +8,9 @@ import com.currencies.mainpackage.api.docs.apiresponse.ApiResponseOk
 import com.currencies.mainpackage.api.dto.request.CreateTicketRequest
 import com.currencies.mainpackage.api.dto.response.TicketResponse
 import io.swagger.v3.oas.annotations.Parameter
-import java.sql.Date
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 
 interface SwaggerTicketController {
 

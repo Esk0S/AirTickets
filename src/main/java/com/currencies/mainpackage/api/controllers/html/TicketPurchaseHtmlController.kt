@@ -1,5 +1,6 @@
 package com.currencies.mainpackage.api.controllers.html
 
+import com.currencies.mainpackage.api.ApiPath.HOME
 import com.currencies.mainpackage.api.ApiPath.ID
 import com.currencies.mainpackage.api.ApiPath.PURCHASE
 import com.currencies.mainpackage.api.HtmlPath.TICKET_PURCHASE
@@ -24,6 +25,7 @@ class TicketPurchaseHtmlController(private val ticketService: TicketService) {
         model.addAttribute("purchaseUrl", PURCHASE)
         model.addAttribute("ticket", ticket)
         model.addAttribute("authUser", userPrincipal?.user)
+        model.addAttribute("homeUrl", HOME)
 
         return TICKET_PURCHASE
     }

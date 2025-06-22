@@ -1,6 +1,5 @@
 package com.currencies.mainpackage.api.controllers.html
 
-import com.currencies.mainpackage.api.ApiPath
 import com.currencies.mainpackage.api.ApiPath.SIGN_UP
 import com.currencies.mainpackage.api.ApiPath.USERS
 import com.currencies.mainpackage.api.HtmlPath
