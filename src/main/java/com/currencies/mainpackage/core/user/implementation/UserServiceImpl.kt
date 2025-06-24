@@ -52,7 +52,6 @@ class UserServiceImpl (
             return (authentication.principal as UserPrincipal).user
         }
 
-//    @Transactional
     override fun create(userDto: UserRegistrationRequest): UserResponse {
         checkFieldUniqueness(
             userRepository.findByEmail(userDto.email) != null,

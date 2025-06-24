@@ -22,6 +22,9 @@
         <a th:if="${isLoggedIn}" th:href="@{${accountUrl}}" class="text-decoration-none me-3 fs-5">
             <span>Аккаунт</span>
         </a>
+        <a th:if="${isLoggedIn}" th:href="@{${logoutUrl}}" class="text-decoration-none me-3 fs-5">
+            <span>Выход</span>
+        </a>
     </div>
     <p class="mt-4 mainText text-center">Поиск авиабилетов</p>
     <form id="ticketSearchForm">

@@ -3,6 +3,7 @@ package com.currencies.mainpackage.api.controllers.html
 import com.currencies.mainpackage.api.ApiPath
 import com.currencies.mainpackage.api.ApiPath.ACCOUNT
 import com.currencies.mainpackage.api.ApiPath.CITIES
+import com.currencies.mainpackage.api.ApiPath.HOME
 import com.currencies.mainpackage.api.ApiPath.LOGIN
 import com.currencies.mainpackage.api.ApiPath.LOGOUT
 import com.currencies.mainpackage.api.ApiPath.NAME
@@ -21,10 +22,10 @@ class HomeController {
 
     @GetMapping
     fun rootPage(): String {
-        return "redirect:${ApiPath.HOME}"
+        return "redirect:${HOME}"
     }
 
-    @GetMapping(ApiPath.HOME)
+    @GetMapping(HOME)
     fun homePage(
         @AuthenticationPrincipal userPrincipal: UserPrincipal?,
         model: Model

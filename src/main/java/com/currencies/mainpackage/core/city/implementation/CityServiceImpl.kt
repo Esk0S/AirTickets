@@ -13,10 +13,7 @@ import com.currencies.mainpackage.entities.jpa.JpaCity
 import com.currencies.mainpackage.repositories.es.EsCityRepository
 import com.currencies.mainpackage.repositories.jpa.JpaCityRepository
 import jakarta.persistence.EntityNotFoundException
-import java.util.Comparator.comparingInt
 import org.apache.logging.log4j.kotlin.Logging
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

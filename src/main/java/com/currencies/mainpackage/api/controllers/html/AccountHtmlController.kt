@@ -2,6 +2,7 @@ package com.currencies.mainpackage.api.controllers.html
 
 import com.currencies.mainpackage.api.ApiPath
 import com.currencies.mainpackage.api.ApiPath.HOME
+import com.currencies.mainpackage.api.ApiPath.LOGOUT
 import com.currencies.mainpackage.api.ApiPath.PROFILE
 import com.currencies.mainpackage.api.ApiPath.TICKET_DETAILS
 import com.currencies.mainpackage.api.ApiPath.USERS
@@ -28,6 +29,7 @@ class AccountHtmlController(private val ticketPurchaseService: TicketPurchaseSer
         model.addAttribute("ticketDetailsUrl", ApiPath.ACCOUNT + TICKET_DETAILS)
         model.addAttribute("updateUserUrl", USERS + PROFILE)
         model.addAttribute("homeUrl", HOME)
+        model.addAttribute("logoutUrl", LOGOUT)
 
         return HtmlPath.ACCOUNT
     }

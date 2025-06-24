@@ -11,13 +11,36 @@ import org.springframework.stereotype.Repository
 @Repository
 interface EsCityRepository : ElasticsearchRepository<EsCity, Long> {
 
+//    {
+//        "match_phrase_prefix": {
+//        "city_name": "?0"
+//    }
+//    }
+
     @Query("""
-        {
-            "match_phrase_prefix": {
-                "city_name": "?0"
-            }
+    {
+        "bool": {
+            "should": [
+                {
+                    "match_phrase_prefix": {
+                        "city_name": {
+                            "query": "?0",
+                            "boost": 2
+                        }
+                    }
+                },
+                {
+                    "match": {
+                        "city_name": {
+                            "query": "?0",
+                            "fuzziness": "AUTO"
+                        }
+                    }
+                }
+            ]
         }
-        """)
+    }
+    """)
     fun searchForCities(name: String, pageable: Pageable): Page<EsCity>
 
     fun findByName(name: String): EsCity?
